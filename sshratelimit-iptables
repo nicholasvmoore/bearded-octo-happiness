@@ -1,0 +1,13 @@
+*filter
+-N LOGDROP
+-A LOGDROP -j LOG
+-A LOGDROP -j DROP
+:UPNP_FORWARD - [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+-A INPUT -p tcp -m tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p udp -m udp -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i tun+ -j ACCEPT
+-A INPUT -p tcp --dport 22 -i enp5s0 -m state --state NEW -m recent --set
+-A INPUT -p tcp --dport 22 -i enp5s0 -m state --state NEW -m recent --update --seconds 60 --hitcount 4 -j LOGDROP
