@@ -8,9 +8,6 @@ vi /etc/sysconfig/selinux
 vi /etc/sysctl.conf
 	- net.ipv4.ip_forward = 1
 
-# Add the webmin repo
-vi /etc/yum.repos.d/webmin.repo
-
 # BTRFS Compression
 chattr -R +c /etc/ /home /var /opt
 btrfs fi defrag -r -c /
@@ -21,7 +18,7 @@ PEERDNS=no
 
 # Package Section
 yum remove firewalld
-yum install strongswan quagga bind-chroot bind-utils httpd mod_ssl dhcp tcpdump tmux screen iproute webmin iptables-services iptables-utils ntp ddclient linux-igd iptraf-ng radvd ndisc6
+yum install strongswan quagga bind-chroot bind-utils httpd mod_ssl dhcp tcpdump tmux screen iproute iptables-services iptables-utils ntp ddclient linux-igd iptraf-ng radvd ndisc6
 
 # Services
 systemctl start iptables.service
