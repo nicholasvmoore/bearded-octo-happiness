@@ -1,30 +1,37 @@
 # Disable selinux
+```bash
 setenforce 0
 
 vi /etc/sysconfig/selinux
 	- disabled
-
+```
 # Enable IP forwarding
+```bash
 vi /etc/sysctl.conf
 	- net.ipv4.ip_forward = 1
-
+```
 # BTRFS Compression
+```bash
 chattr -R +c /etc/ /home /var /opt
 btrfs fi defrag -r -c /
-
+```
 # Network Configuration
+```bash
 # WAN
 PEERDNS=no
-
+```
 # Package Section
+```bash
 yum remove firewalld
 yum install strongswan quagga bind-chroot bind-utils httpd mod_ssl dhcp tcpdump tmux screen iproute iptables-services iptables-utils ntp ddclient linux-igd iptraf-ng radvd ndisc6
-
+```
 # Services
+```bash
 systemctl start iptables.service
 systemctl enable iptables.service
-
+```
 # iptables:
+```bash
 # em1 = LAN
 # em2 = WAN
 iptables -A FORWARD -i em1 -j ACCEPT
@@ -32,24 +39,28 @@ iptables -A FORWARD -o em1 -j ACCEPT
 iptables -t nat -A POSTROUTING -o em2 -j MASQUERADE
 
 service iptables save
-
-# Bind9-chroot
+```
+# Bind9
+```bash
 systemctl stop named.service
 systemctl disable named.service
 systemctl start named-chroot.service
 systemctl enable named-chroot.service
-
+```
 # DHCPD
+```bash
 systemctl enable dhcpd.service
 systemctl start dhcpd.service
-
+```
 # NTP
+```bash
 systemctl enable ntpd.service
 systemctl start ntpd.service
-
+```
 # upnpd
-Theres a bug in the RPM for upnpd and you can fix it by doing the steps below 
-Refernce: https://bugzilla.redhat.com/show_bug.cgi?format=multiple&id=903740
+```
+#Theres a bug in the RPM for upnpd and you can fix it by doing the steps below 
+#Refernce: https://bugzilla.redhat.com/show_bug.cgi?format=multiple&id=903740
 
 vi /etc/sysconfig/upnpd
 EXTIFACE="em2"
@@ -60,3 +71,4 @@ systemctl stop upnpd.service
 systemctl disable upnpd.service
 systemctl enable upnpd.service
 systemctl start upnpd.service
+```
